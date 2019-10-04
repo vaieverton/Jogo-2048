@@ -485,6 +485,17 @@ int movimentoEsquerda  (int jogo[N][N])
 	}
 }
 
+void tabuleiroAnterior(int tabuleiro[N][N], int anterior[N][N]) {
+	anterior = tabuleiro;
+}
+
+void desfazJogada (int tabuleiro[N][N]) {
+	// pega a função tabuleiro anterior e 
+	// desfaz a jogada recentemente feita.
+	// so pode ocorrer 3 vezes seguidas
+	// cada jogada feita adiciona mais uma vez	
+}
+
 void recebeComando (int tabuleiro[N][N]) {
 	char x;
 	scanf("%s", &x);
@@ -573,6 +584,7 @@ int verificaJogo (int jogo[N][N]) {
 
 int main () {
 	system("clear");
+	int anterior[N][N];
 	int tabuleiro [N][N];
 	geraTabuleiroAleatorio(tabuleiro);
 	while(verificaJogo(tabuleiro) != 1) {
