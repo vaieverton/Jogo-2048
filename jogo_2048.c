@@ -487,6 +487,10 @@ int movimentoEsquerda  (int jogo[N][N])
 
 void tabuleiroAnterior(int tabuleiro[N][N], int anterior[N][N]) {
 	anterior = tabuleiro;
+
+	// posso refazer usando um STATIC INT[N][N]
+
+	
 }
 
 void desfazJogada (int tabuleiro[N][N]) {
@@ -498,11 +502,14 @@ void desfazJogada (int tabuleiro[N][N]) {
 
 void recebeComando (int tabuleiro[N][N]) {
 	char x;
+	static int k = 0;
 	scanf("%s", &x);
 	if (x == 'w' || x == 'W') {
 		movimentoCima(tabuleiro);
 		system("clear");
 		printf("Last Move: Up\n");
+		k++;
+		printf("%d\n", k);
 	}
 	else if (x == 'a' || x == 'A') {
 		movimentoEsquerda(tabuleiro);
