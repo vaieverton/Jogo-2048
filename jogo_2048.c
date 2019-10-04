@@ -3,17 +3,8 @@
 #include <string.h>
 #include <time.h>
 
-//jogo 2048
-//peças de numeros iguais se combinam e somam
-// somente numeros pares serão considerados
-// 2 + 2 = 4
-// 4 + 4 = 8
-// ...
-// 1024 + 1024 = 2048.
-// se uma das peças atingir 2048, o jogo acaba.
-
 #define N 3
-
+#define META 64
 
 void geraTabuleiroAleatorio (int v[N][N]) {
 	srand((unsigned)time(NULL));
@@ -25,7 +16,7 @@ void geraTabuleiroAleatorio (int v[N][N]) {
 		for (j = 0; j < N; j++) {
 			v[i][j] = 0;
 		}
-	}
+	} 
 
 	j = 2;
 	for (i = 0; i < 2; i++) {
@@ -59,7 +50,7 @@ int geraPeca (int tabuleiro[N][N]) {
 	}
 }
 
-void movimentoCima (int jogo[N][N]) 
+int movimentoCima (int jogo[N][N]) 
 {
 	int j;
 
@@ -70,17 +61,17 @@ void movimentoCima (int jogo[N][N])
 			jogo[1][j] == 0 &&
 			jogo[2][j] == 0){
 
-			jogo[1][j] ==0;
+			jogo[1][j] = 0;
 		
 		}
 		
 		else if (jogo[0][j] == 0 &&
-			jogo[1][j] != 0 &&
-			jogo[2][j] == 0)
+				jogo[1][j] != 0 &&
+				jogo[2][j] == 0)
 		{ 
 
-			jogo[0][j] = jogo[1][j];
-			jogo[1][j] = 0; 
+			jogo[0][j] = jogo[1][j];                                                                                                                                               
+			jogo[1][j] = 0;
 
 		}	
 		else if (jogo[0][j] == 0 &&
@@ -90,11 +81,12 @@ void movimentoCima (int jogo[N][N])
 
 			jogo[0][j] = jogo[2][j];
 			jogo[2][j] = 0;
+		
 		}
 		//
 
 		//
-		 else if (jogo[0][j] == 0 &&
+		else if (jogo[0][j] == 0 &&
 				jogo[1][j] != 0 &&
 				jogo[2][j] != 0) 
 		{
@@ -121,6 +113,7 @@ void movimentoCima (int jogo[N][N])
 
 				jogo[0][j] = jogo[0][j] + jogo[1][j];
 				jogo[1][j] = 0;
+
 			}
 		}
 		else if (jogo[0][j] != 0 &&
@@ -129,12 +122,16 @@ void movimentoCima (int jogo[N][N])
 		{
 
 			if (jogo[0][j] == jogo[2][j]){
+
 				jogo[0][j] = jogo[0][j] + jogo[2][j];
 				jogo[2][j] = 0;
+
 			}
 			else {
+
 				jogo[1][j] = jogo[2][j];
 				jogo[2][j] = 0;
+
 			}
 
 		}
@@ -153,8 +150,335 @@ void movimentoCima (int jogo[N][N])
 
 			}
 			else if (jogo[1][j] == jogo[2][j]) {
+
 				jogo[1][j] = jogo[1][j] + jogo[2][j];
 				jogo[2][j] = 0;
+
+			}
+		}
+		//
+	}
+}
+
+int movimentoBaixo (int jogo[N][N]) 
+{
+	int j;
+
+	for (j = 0; j < N; j++) 
+	{
+		//
+		if (jogo[0][j] != 0 &&
+			jogo[1][j] == 0 &&
+			jogo[2][j] == 0){
+
+			jogo[2][j] = jogo[0][j];
+			jogo[0][j] = 0;
+		
+		}
+		
+		else if (jogo[0][j] == 0 &&
+				jogo[1][j] != 0 &&
+				jogo[2][j] == 0)
+		{ 
+
+			jogo[2][j] = jogo[1][j];                                                                                                                                               
+			jogo[1][j] = 0;
+
+		}	
+		else if (jogo[0][j] == 0 &&
+				jogo[1][j] == 0 &&
+				jogo[2][j] != 0) 
+		{
+
+			jogo[0][j] = 0;
+		
+		}
+		//
+
+		//
+		else if (jogo[0][j] == 0 &&
+				jogo[1][j] != 0 &&
+				jogo[2][j] != 0) 
+		{
+			if (jogo[1][j] == jogo[2][j]) {
+
+				jogo[2][j] = jogo[1][j] + jogo[2][j];
+				jogo[1][j] = 0;
+
+			}
+		}
+
+		else if (jogo[0][j] != 0 &&
+				jogo[1][j] != 0 &&
+				jogo[2][j] == 0) 
+		{
+			if(jogo[0][j] == jogo[1][j]) {
+
+				jogo[2][j] = jogo[0][j] + jogo[1][j];
+				jogo[1][j] = 0;
+				jogo[0][j] = 0;
+
+			}
+			else {
+				jogo[2][j] = jogo[1][j];
+				jogo[1][j] = jogo[0][j];
+				jogo[0][j] = 0;
+			}
+		}
+		else if (jogo[0][j] != 0 &&
+				jogo[1][j] == 0 &&
+				jogo[2][j] != 0)
+		{
+
+			if (jogo[0][j] == jogo[2][j])
+			{
+
+				jogo[2][j] = jogo[0][j] + jogo[2][j];
+				jogo[0][j] = 0;
+
+			}
+			else {
+				jogo[1][j] = jogo[0][j];
+				jogo[0][j] = 0;
+
+			}
+
+		}
+		//
+
+		//
+		else if (jogo[0][j] != 0 &&
+				jogo[1][j] != 0 &&
+				jogo[2][j] != 0)
+		{
+			if (jogo[1][j] == jogo[2][j]) {
+
+				jogo[2][j] = jogo[2][j] + jogo[1][j];
+				jogo[1][j] = jogo[0][j];
+				jogo[0][j] = 0;
+
+			}
+			else if (jogo[0][j] == jogo[1][j]) {
+				jogo[1][j] = jogo[1][j] + jogo[0][j];
+				jogo[0][j] = 0;
+
+			}
+		}
+		//
+	}
+}
+
+int movimentoDireita (int jogo[N][N]) 
+{
+	int j;
+
+	for (j = 0; j < N; j++) 
+	{
+		//
+		if (jogo[j][0] != 0 &&
+			jogo[j][1] == 0 &&
+			jogo[j][2] == 0){
+
+			jogo[j][2] = jogo[j][0];
+			jogo[j][0] = 0;
+		
+		}
+		
+		else if (jogo[j][0] == 0 &&
+			jogo[j][1] != 0 &&
+			jogo[j][2] == 0)
+		{ 
+
+			jogo[j][2] = jogo[j][1];                                                                                                                                               
+			jogo[j][1] = 0;
+
+		}	
+		else if (jogo[j][0] == 0 &&
+				jogo[j][1] == 0 &&
+				jogo[j][2] != 0) 
+		{
+
+			jogo[j][0] = 0;
+		
+		}
+		//
+
+		//
+		else if (jogo[j][0] == 0 &&
+				jogo[j][1] != 0 &&
+				jogo[j][2] != 0) 
+		{
+			if (jogo[j][1] == jogo[j][2]) {
+
+				jogo[j][2] = jogo[j][1] + jogo[j][2];
+				jogo[j][1] = 0;
+
+			}
+		}
+
+		else if (jogo[j][0] != 0 &&
+				jogo[j][1] != 0 &&
+				jogo[j][2] == 0) 
+		{
+			if(jogo[j][0] == jogo[j][1]) {
+
+				jogo[j][2] = jogo[j][0] + jogo[j][1];
+				jogo[j][1] = 0;
+				jogo[j][0] = 0;
+
+			}
+			else {
+				jogo[j][2] = jogo[j][1];
+				jogo[j][1] = jogo[j][0];
+				jogo[j][0] = 0;
+			}
+		}
+		else if (jogo[j][0] != 0 &&
+				jogo[j][1] == 0 &&
+				jogo[j][2] != 0)
+		{
+
+			if (jogo[j][0] == jogo[j][2])
+			{
+
+				jogo[j][2] = jogo[j][0] + jogo[j][2];
+				jogo[j][0] = 0;
+
+			}
+			else {
+				jogo[j][1] = jogo[j][0];
+				jogo[j][0] = 0;
+
+			}
+
+		}
+		//
+
+		//
+		else if (jogo[j][0] != 0 &&
+				jogo[j][1] != 0 &&
+				jogo[j][2] != 0)
+		{
+			if (jogo[j][1] == jogo[j][2]) {
+
+				jogo[j][2] = jogo[j][2] + jogo[j][1];
+				jogo[j][1] = jogo[j][0];
+				jogo[j][0] = 0;
+
+			}
+			else if (jogo[j][0] == jogo[j][1]) {
+				jogo[j][1] = jogo[j][1] + jogo[j][0];
+				jogo[j][0] = 0;
+
+			}
+		}
+		//
+	}
+}
+
+int movimentoEsquerda  (int jogo[N][N]) 
+{
+	int j;
+
+	for (j = 0; j < N; j++) 
+	{
+		//
+		if (jogo[j][0] != 0 &&
+			jogo[j][1] == 0 &&
+			jogo[j][2] == 0){
+
+			jogo[j][1] = 0;
+		
+		}
+		
+		else if (jogo[j][0] == 0 &&
+			jogo[j][1] != 0 &&
+			jogo[j][2] == 0)
+		{ 
+
+			jogo[j][0] = jogo[j][1];                                                                                                                                               
+			jogo[j][1] = 0;
+
+		}	
+		else if (jogo[j][0] == 0 &&
+				jogo[j][1] == 0 &&
+				jogo[j][2] != 0) 
+		{
+
+			jogo[j][0] = jogo[j][2];
+			jogo[j][2] = 0;
+		
+		}
+		//
+
+		//
+		else if (jogo[j][0] == 0 &&
+				jogo[j][1] != 0 &&
+				jogo[j][2] != 0) 
+		{
+			if (jogo[j][1] == jogo[j][2]) {
+
+				jogo[j][0] = jogo[j][1] + jogo[j][2];
+				jogo[j][1] = 0;
+				jogo[j][2] = 0;
+
+			}
+			else {
+
+				jogo[j][0] = jogo[j][1];
+				jogo[j][1] = jogo[j][2];
+				jogo[j][2] = 0;
+
+			}
+		}
+		else if (jogo[j][0] != 0 &&
+				jogo[j][1] != 0 &&
+				jogo[j][2] == 0) 
+		{
+			if(jogo[j][0] == jogo[j][1]) {
+
+				jogo[j][0] = jogo[j][0] + jogo[j][1];
+				jogo[j][1] = 0;
+
+			}
+		}
+		else if (jogo[j][0] != 0 &&
+				jogo[j][1] == 0 &&
+				jogo[j][2] != 0)
+		{
+
+			if (jogo[j][0] == jogo[j][2])
+			{
+				jogo[j][0] = jogo[j][0] + jogo[j][2];
+				jogo[j][2] = 0;
+
+			}
+			else {
+
+				jogo[j][1] = jogo[j][2];
+				jogo[j][2] = 0;
+
+			}
+
+		}
+		//
+
+		//
+		else if (jogo[j][0] != 0 &&
+				jogo[j][1] != 0 &&
+				jogo[j][2] != 0)
+		{
+			if (jogo[j][0] == jogo[j][1]) {
+
+				jogo[j][0] = jogo[j][0] + jogo[j][1];
+				jogo[j][1] = jogo[j][2];
+				jogo[j][2] = 0;
+
+			}
+			else if (jogo[j][1] == jogo[j][2]) {
+				jogo[j][1] = jogo[j][1] + jogo[j][2];
+				jogo[j][2] = 0;
+
 			}
 		}
 		//
@@ -170,17 +494,17 @@ void recebeComando (int tabuleiro[N][N]) {
 		printf("Last Move: Up\n");
 	}
 	else if (x == 'a' || x == 'A') {
-		//movimentoEsquerda();
+		movimentoEsquerda(tabuleiro);
 		system("clear");
 		printf("Last Move: Left\n");
 	}
 	else if (x == 'd' || x == 'D') {
-		//movimentoDireita(tabuleiro);
+		movimentoDireita(tabuleiro);
 		system("clear");
 		printf("Last Move: Right\n");
 	}
 	else if (x == 's' || x == 'S') {
-		//movimentoBaixo();
+		movimentoBaixo(tabuleiro);
 		system("clear");
 		printf("Last Move: Down\n");
 	}
@@ -196,7 +520,8 @@ int verificaJogo (int jogo[N][N]) {
 	int i, j ,count;
 	for(i = 0; i < N; i++) {  
 		for(j = 0; j < N; j++){ 
-			if (jogo[i][j]==16) {
+			if (jogo[i][j] == META) {
+				mostraTabuleiro(jogo);
 				printf("Parabéns! Você venceu. \n");
 				return 1;
 			}
@@ -236,21 +561,23 @@ int verificaJogo (int jogo[N][N]) {
 						return 0;
 					}
 				}
+
+				system("clear");
+				mostraTabuleiro(jogo);
+				printf("\nSem movimentos possíveis, você perdeu!\n");
+				return 1;
 			}
 		}
-	}
-	
+	}	
 }
-
 
 int main () {
 	system("clear");
 	int tabuleiro [N][N];
 	geraTabuleiroAleatorio(tabuleiro);
-	mostraTabuleiro(tabuleiro);
 	while(verificaJogo(tabuleiro) != 1) {
-		recebeComando(tabuleiro);
 		mostraTabuleiro(tabuleiro);
+		recebeComando(tabuleiro);
 		geraPeca(tabuleiro);
 	}
 
